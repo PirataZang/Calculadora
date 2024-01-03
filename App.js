@@ -18,7 +18,7 @@ export default class App extends Component {
   state = { ...initialValue }
 
   AddNumber = n => {
-    if (n === '.' && this.state.clearMemory.displayValue.include('.')) {
+    if (n === '.' && this.state.displayValue.includes('.')) {
       return
     }
 
@@ -27,9 +27,16 @@ export default class App extends Component {
     const displayValue = currentValue + n
     this.setState( {displayValue, clearDisplay: false})
 
+    if(n !== '.'){
+      const newValue = parseFloat(displayValue);
+      const values = [...this.state.values];
+      values[this.state.current] = newValue;
+      this.setState({values});
+    }
+
   }
 
-  clearMemory = () => { this.setState({ displayValue: '0' }) }
+  clearMemory = () => { this.setState({...initialValue}) }
 
   setOperation = operation => { }
 
