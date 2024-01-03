@@ -25,20 +25,30 @@ export default class App extends Component {
     const clearDisplay = this.state.displayValue === '0' || this.state.clearDisplay;
     const currentValue = clearDisplay ? '' : this.state.displayValue
     const displayValue = currentValue + n
-    this.setState( {displayValue, clearDisplay: false})
+    this.setState({ displayValue, clearDisplay: false })
 
-    if(n !== '.'){
+    if (n !== '.') {
       const newValue = parseFloat(displayValue);
       const values = [...this.state.values];
       values[this.state.current] = newValue;
-      this.setState({values});
+      this.setState({ values });
     }
-
   }
 
-  clearMemory = () => { this.setState({...initialValue}) }
+  clearMemory = () => { this.setState({ ...initialValue }) }
 
-  setOperation = operation => { }
+  setOperation = operation => {
+    if (this.state.current === 0) {
+      this.setState({ operation, current: 1, clearDisplay: true })
+    }
+    else {
+      const equals = operation === '=';
+      const values = [...this.state.values];
+      try {
+        values[0] = eval(`${Value[0]} ${this.state.operation} ${values[1]}`);
+      }
+    }
+  }
 
   render() {
     return (
